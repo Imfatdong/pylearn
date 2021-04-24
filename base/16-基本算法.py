@@ -11,9 +11,7 @@ def bubble_sort(a: list) -> None:
         is_exchange = False
         for j in range(0, len(a) - 1 - i):
             if a[j] > a[j + 1]:
-                temp = a[j + 1]
-                a[j + 1] = a[j]
-                a[j] = temp
+                a[j], a[j + 1] = a[j + 1], a[j]
                 is_exchange = True
         if not is_exchange:
             break
@@ -34,9 +32,8 @@ def select_sort(a: list) -> None:
             if a[j] < a[temp]:
                 temp = j
         if temp != i:
-            t = a[temp]
-            a[temp] = a[i]
-            a[i] = t
+            a[temp], a[i] = a[i], a[temp]
+
     print("排序后", a)
 
 
@@ -49,13 +46,13 @@ def insert_sort(a: list) -> None:
     for i in range(1, len(a)):
         temp = a[i]
         index = i - 1;
-        while a[index] > temp and index >=0:
-            a[index+1] = a[index]
+        while a[index] > temp and index >= 0:
+            a[index + 1] = a[index]
             index = index - 1
 
-        a[index+1] = temp
+        a[index + 1] = temp
 
-
+    print("排序后", a)
 
 
 def shell_sort(a: list) -> None:
@@ -148,7 +145,40 @@ def heap_sort(a: list) -> None:
     :param a:
     :return:
     """
-    pass
+
+    def init_heap(a: list) -> None:
+        for i in range(len(a) // 2 - 1, -1, -1):
+            adjust_heap(a, i, len(a))
+
+    def adjust_heap(a: list, index: int, length: int) -> None:
+
+        if index >= length:
+            return
+
+        left = 2 * index + 1
+        right = 2 * index + 2
+        max = index
+        if left < length and a[max] < a[left]:
+            max = left
+
+        if right < length and a[max] < a[right]:
+            max = right
+        if max != index:
+            a[max], a[index] = a[index], a[max]
+            adjust_heap(a, max, length)
+
+    def build_heap(a: list, n: int) -> None:
+        for i in range(n // 2 - 1, -1, -1):
+            adjust_heap(a, i, n)
+
+    def sort(a: list) -> None:
+        init_heap(a)
+        for i in range(len(a) - 1, 0, -1):
+            a[i], a[0] = a[0], a[i]
+            build_heap(a, i)
+
+    sort(a)
+    print("排序后", a)
 
 
 def radix_sort(a: list) -> None:
@@ -157,13 +187,39 @@ def radix_sort(a: list) -> None:
     :param a:
     :return:
     """
-    pass
+    bucket = [[i for i in range(10)] for i in range(10)]
+    bucket_count = [0] * 10
+
+    max_num = -1
+    for i in a:
+        if i > max_num:
+            max_num = i
+
+    count = len(str(max_num))
+    step = 1
+
+    while count > 0:
+        for i in range(len(a)):
+            res = a[i] // step % 10
+            bucket[res][bucket_count[res]] = a[i]
+            bucket_count[res] = bucket_count[res] + 1
+
+        t = 0
+        for i in range(10):
+            for k in range(bucket_count[i]):
+                a[t] = bucket[i][k]
+                t = t + 1
+            bucket_count[i] = 0
+
+        count = count - 1
+        step = step * 10
+    print("排序后", a)
 
 
 def init() -> list:
     a = []
     for i in range(10):
-        a.append(random.randint(1, 30))
+        a.append(random.randint(1, 1000))
     print("排序前", a)
     return a
 
@@ -175,7 +231,16 @@ arr = init()
 select_sort(arr)
 
 arr = init()
+insert_sort(arr)
+
+arr = init()
 quick_sort(arr)
 
 arr = init()
 merge_sort(arr)
+
+arr = init()
+heap_sort(arr)
+
+arr = init()
+radix_sort(arr)
