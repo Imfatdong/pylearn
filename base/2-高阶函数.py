@@ -181,3 +181,9 @@ def fun1(*args, **kwargs):
 fun1(1, 2, 3, 4)  # args=(1, 2, 3, 4) kwargs={}
 fun1(name=123)  # args=() kwargs = {'name': 123}
 
+#函数变换形参的位置
+def fun2(a=2, b=3):
+    print(str(a) + "+" + str(b) + "=" + str(a + b))
+
+
+fun2(b=6, a=2)

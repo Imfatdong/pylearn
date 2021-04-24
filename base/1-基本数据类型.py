@@ -1,4 +1,5 @@
 import random
+from collections.abc import Iterator
 from functools import reduce  #导入reduce函数
 
 def base_operator():
@@ -408,9 +409,9 @@ def string_operator():
     value = res.decode("gbk")
     print(value)
 
-    pass
 
 
 # string_operator()
-list_operator()
+# list_operator()
+
 
