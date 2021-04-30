@@ -1,9 +1,9 @@
 import random
 from collections.abc import Iterator
-from functools import reduce  #导入reduce函数
+from functools import reduce  # 导入reduce函数
+
 
 def base_operator():
-
     """
     基本操作
     :return: None
@@ -26,15 +26,14 @@ def base_operator():
     # 删除某个变量
     del a
 
-
-    #交换元素
+    # 交换元素
     a = 6
     b = 9
-    a,b = b,a
+    a, b = b, a
 
-    print(a,b)
+    print(a, b)
 
-    #字符串的asIii码
+    # 字符串的asIii码
     print(ord('a'))
 
     # 定义指定返回值的元素
@@ -61,7 +60,6 @@ oct(x) 将一个整数转换为一个八进制字符串
 
 '''
 
-
 '''
 1、字符串
 2、布尔类型
@@ -75,11 +73,10 @@ oct(x) 将一个整数转换为一个八进制字符串
 '''
 
 
-#py基本数据类型
+# py基本数据类型
 # int float dist class str tuple list
 
 def list_operator():
-
     """
     list类型使用
     :return: None
@@ -152,18 +149,17 @@ def set_operator():
     print(my_set.__len__())
     print(my_set.__contains__(6))
     print(8 in my_set)
-    my_set = set("Hello") # 这样会转成单个字符的值进行插入，结果是'H','e','l','o'，'l'因为重复只能插入一次。
+    my_set = set("Hello")  # 这样会转成单个字符的值进行插入，结果是'H','e','l','o'，'l'因为重复只能插入一次。
 
     # 增加一个元素 注意如果用add增加多个值，会报参数类型错误。
     my_set.add(66)
-    #增加多个元素
-    my_set.update([1,2,3,4,6])
+    # 增加多个元素
+    my_set.update([1, 2, 3, 4, 6])
     print(my_set)
 
-
-    #remove()用于删除一个set中的元素，这个值在set中必须存在，如果不存在的话，会引发KeyError错误。
+    # remove()用于删除一个set中的元素，这个值在set中必须存在，如果不存在的话，会引发KeyError错误。
     my_set.remove(66)
-    #discard()用于删除一个set中的元素，这个值不必一定存在，不存在的情况下删除也不会触发错误。
+    # discard()用于删除一个set中的元素，这个值不必一定存在，不存在的情况下删除也不会触发错误。
     my_set.discard(999)
     return None
 
@@ -180,7 +176,6 @@ def dict_operator():
     for k in my_dict:
         print(k, my_dict.get(k));
 
-
     print(len(my_dict))
     print(my_dict.__len__())
     # 追加属性  ,不能写成dict.p = 6
@@ -193,22 +188,26 @@ def dict_operator():
 
 
 def tuple_operator():
-
     """
     元组类型操作
     :return:
     """
-    #元组中只有一个元素那么要在后面加一个,
-    #元素的值不可改变，但是
-    my_tuple = (1,2)
+    # 元组中只有一个元素那么要在后面加一个,
+    # 元素的值不可改变，但是
+    my_tuple = (1, 2)
 
     # my_tuple[0] = 6 会报错，内部内容不能被赋值
-    my_tuple = ([1,2,3],1,2,3)
-    my_tuple[0].append(5) #不会报错，改变的是里面引用类型的内容值
+    my_tuple = ([1, 2, 3], 1, 2, 3)
+    my_tuple[0].append(5)  # 不会报错，改变的是里面引用类型的内容值
     print(my_tuple)
     print(my_tuple.index(1))
     print(my_tuple.__contains__(2))
-    return None
+
+    # 定义只有一个元素的tuple,必须以,结尾，不然会识别为 表达式
+    my_tuple = (1)
+    print(type(my_tuple))
+    my_tuple = (1,)
+    print(type(my_tuple))
 
 
 def complex_operator():
@@ -219,7 +218,6 @@ def complex_operator():
     complex1 = 3 + 2j
     complex2 = 5 + 6j
     return None
-
 
 
 def string_operator():
@@ -237,11 +235,11 @@ def string_operator():
     print(my_str.lstrip())
     print(my_str.rstrip())
     print(my_str[0:5])
-    print(my_str.count("l",5,6))
+    print(my_str.count("l", 5, 6))
     print(my_str.upper())
     print(my_str.islower())
 
-    #字符串索引 0~ len-1,或 -len ~ -1
+    # 字符串索引 0~ len-1,或 -len ~ -1
 
     # +号运算 --- 拼接字符串
     # 注意: 字符串使用+号来进行拼接时 只能拼接字符串类型的 其他类型都不可以
@@ -410,8 +408,6 @@ def string_operator():
     print(value)
 
 
-
 # string_operator()
 # list_operator()
-
-
+tuple_operator()
