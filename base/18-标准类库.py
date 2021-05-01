@@ -1,9 +1,16 @@
 import sys
+# 读取命令行参数
 print(sys.argv)
 
 
 
 import math
+
+
+# 针对日常的文件和目录管理任务，:mod:shutil 模块提供了一个易于使用的高级接口:
+import shutil
+shutil.copyfile('../temp/file_read.txt', '../temp/copy.txt')
+shutil.move('../copy.txt', './')
 
 
 import random
