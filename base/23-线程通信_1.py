@@ -1,5 +1,5 @@
 import time
-from threading import Barrier, Semaphore, current_thread, Thread, BoundedSemaphore, Timer, local
+from threading import Barrier, Semaphore, current_thread, Thread, BoundedSemaphore, Timer, local, Event
 import random
 
 barrier = Barrier(5)
@@ -71,12 +71,42 @@ def test_thread_local():
         Thread(target=run, args=(i,)).start()
 
 
+event = Event()
+
+
+def test_event():
+    """
+    通过event进行线程之间的通讯
+
+    Event（事件）是最简单的线程通信机制之一：
+    一个线程通知事件，其他线程等待事件。Event内置了一个初始为False的标志，
+    当调用set()时设为True，调用clear()时重置为 False。wait()将阻塞线程至等待阻塞状态。
+    :return:
+    """
+
+    def run1():
+        print("%s 等待事件中" % (current_thread().getName(),))
+        event.wait()
+        event.clear()  # 重置状态
+        print("%s 事件到达，唤醒" % (current_thread().getName(),))
+
+    def run2():
+        time.sleep(2)
+        print("%s 发送事件" % (current_thread().getName(),))
+        event.set()
+
+    Thread(target=run1).start()
+    Thread(target=run2).start()
+    pass
+
+
 def main():
     # test_barrier()
     # test_semaphore()
     # test_bounded_semaphore()
     # test_timer()
-    test_thread_local()
+    # test_thread_local()
+    test_event()
 
 
 if __name__ == '__main__':
