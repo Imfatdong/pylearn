@@ -4,15 +4,28 @@ import random
 import time
 
 
+class Account:
+    def __init__(self, name, identity_id, card):
+        self.name = name
+        self.identity_id = identity_id
+        self.card = card
+
+    def __str__(self):
+        return "名字:" + str(self.name) + " 身份证:" + str(self.identity_id) + " card:" + self.card.__str__()
+
+    def __repr__(self):
+        return self.__str__()
+
+
 class Operation:
 
     @classmethod
-    def check(cls, method='lock'):
+    def check(cls, method='lock') -> Account:
         database = Storage.load()
         print(database)
         count = 0
         while True:
-            id = int(input("请输入卡号:"))
+            id: int = int(input("请输入卡号:"))
             if id not in database:
                 print("卡号不存在！请重新输入卡号")
                 count += 1
@@ -20,9 +33,9 @@ class Operation:
                     print("卡号输入3次不存在。自动退出！")
                     return None
                 continue
-            account = database.get(id)
-            count = 0
-            password = input("请输入密码:")
+            account: Account = database.get(id)
+            count: int = 0
+            password: str = input("请输入密码:")
             while True:
                 if password != account.card.password:
                     count += 1
@@ -43,7 +56,7 @@ class Operation:
         return account
 
     @classmethod
-    def create_account(cls):
+    def create_account(cls) -> None:
         name = input("请输入姓名:")
         identity_id = input("请输入身份证号:")
         password = input("请输入密码:")
@@ -61,14 +74,14 @@ class Operation:
         time.sleep(2)
 
     @classmethod
-    def query(cls):
+    def query(cls) -> None:
         account = Operation.check()
         if account is not None:
             print("当前卡的余额是:", account.card.amount)
             time.sleep(2)
 
     @classmethod
-    def storage(cls):
+    def storage(cls) -> None:
         account = Operation.check()
         if account is not None:
             card = account.card
@@ -81,7 +94,7 @@ class Operation:
             time.sleep(2)
 
     @classmethod
-    def put(cls):
+    def put(cls) -> None:
         account = Operation.check()
         if account is not None:
             card = account.card
@@ -102,7 +115,7 @@ class Operation:
             time.sleep(2)
 
     @classmethod
-    def transfer(cls):
+    def transfer(cls) -> None:
         account = Operation.check()
         database = Storage.load()
         database[account.card.id] = account
@@ -117,7 +130,7 @@ class Operation:
                 if count == 3:
                     print('输错三次，自动退出!')
                     return
-            trasfer_card = database[transfer_id].card
+            transfer_card = database[transfer_id].card
             print('当前卡号用户名字为 ' + database[transfer_id].name)
             money = int(input('请输入转账金额:'))
             count = 0
@@ -129,14 +142,14 @@ class Operation:
                     return
                 money = int(input('请再次输入转账金额:'))
             card.amount = card.amount - money
-            trasfer_card.amount = trasfer_card.amount + money
+            transfer_card.amount = transfer_card.amount + money
             Storage.save(database)
-            print('成功给 ' + str(trasfer_card.id) + '\t ' + database[transfer_id].name + ' 转账' + str(
+            print('成功给 ' + str(transfer_card.id) + '\t ' + database[transfer_id].name + ' 转账' + str(
                 money) + ',当前余额为' + str(card.amount))
             time.sleep(2)
 
     @classmethod
-    def change_password(cls):
+    def change_password(cls) -> None:
         account = Operation.check()
         if account is not None:
             database = Storage.load()
@@ -149,7 +162,7 @@ class Operation:
             time.sleep(2)
 
     @classmethod
-    def lock_card(cls):
+    def lock_card(cls) -> None:
         account = Operation.check()
         if account is not None:
             database = Storage.load()
@@ -160,7 +173,7 @@ class Operation:
             time.sleep(2)
 
     @classmethod
-    def unlock_card(cls):
+    def unlock_card(cls) -> None:
         account = Operation.check('unlock')
         if account is not None:
             database = Storage.load()
@@ -171,7 +184,7 @@ class Operation:
             time.sleep(2)
 
     @classmethod
-    def destroy(cls):
+    def destroy(cls) -> None:
         account = Operation.check()
         database = Storage.load()
         database[account.card.id]
@@ -202,32 +215,19 @@ class Card:
         return self.__str__()
 
 
-class Account:
-    def __init__(self, name, identity_id, card):
-        self.name = name
-        self.identity_id = identity_id
-        self.card = card
-
-    def __str__(self):
-        return "名字:" + str(self.name) + " 身份证:" + str(self.identity_id) + " card:" + self.card.__str__()
-
-    def __repr__(self):
-        return self.__str__()
-
-
 class Storage:
-
     data_base_path = "../temp/bank_database.txt"
 
     @classmethod
-    def load(cls):
-        database = {}
+    def load(cls) -> dict:
+        database: dict = {}
         if os.path.exists(cls.data_base_path):
             with open(cls.data_base_path, "rb") as fp:
                 # 从文件中将用户列表下载下来
                 try:
                     database = pickle.load(fp)
-                except:
+                except Exception as e:
+                    print(e)
                     database = {}
         return database
 
